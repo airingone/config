@@ -1,14 +1,14 @@
 package config
 
-type ConfigServerSt struct {
+type ConfigServer struct {
 	Name    string
 	Author  string
 	Version string
 	Port    uint32
 }
 
-func GetServerConfig(key string) ConfigServerSt {
-	var conf ConfigServerSt
+func GetServerConfig(key string) ConfigServer {
+	var conf ConfigServer
 	conf.Name = GetString(key + "." + "name")
 	conf.Author = GetString(key + "." + "author")
 	conf.Version = GetString(key + "." + "version")
