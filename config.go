@@ -6,6 +6,14 @@ import (
 )
 
 func InitConfig() {
+	//log 默认值
+	viper.SetDefault("log.level", "debug")
+	viper.SetDefault("log.path", "../log/")
+	viper.SetDefault("log.maxSize", 100)
+	viper.SetDefault("log.maxBackups", 20)
+	viper.SetDefault("log.maxAge", 30)
+	viper.SetDefault("log.compress", false)
+
 	viper.SetConfigName("config")   //设置文件名，后缀会自动识别，建议yml文件
 	viper.AddConfigPath("../conf/") //相对可执行文件的路径
 	viper.AddConfigPath(".")
