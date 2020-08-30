@@ -1,0 +1,18 @@
+server:
+  name: congfig_test
+  author: airing
+  version: 1.0
+  port: 8080
+
+log:
+  level: debug
+  path: ../log
+
+redis_test:
+  addr: xxx.xxx.xxx.xxx:6379
+  password: test
+
+mysql_test:
+  addr: xxx.xxx.xxx.xxx:6379
+  user: test_user
+  password: test
