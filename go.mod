@@ -1,4 +1,4 @@
-module airingone/config
+module github.com/airingone/config
 
 go 1.13
 
