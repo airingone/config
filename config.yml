@@ -6,7 +6,11 @@ server:
 
 log:
   level: debug
-  path: ../log
+  path: ../log/
+  maxSize: 100   #mb
+  maxBackups: 20 #file count
+  maxAge: 30     #days
+  compress: true
 
 redis_test:
   addr: xxx.xxx.xxx.xxx:6379

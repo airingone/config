@@ -17,14 +17,22 @@ func GetServerConfig(key string) ConfigServerSt {
 }
 
 type ConfigLog struct {
-	Level string
-	Path  string
+	Level      string
+	Path       string
+	MaxSize    uint32 // MB
+	MaxBackups uint32 //file count
+	MaxAge     uint32 //days
+	Compress   bool
 }
 
 func GetLogConfig(key string) ConfigLog {
 	var conf ConfigLog
 	conf.Level = GetString(key + "." + "level")
 	conf.Path = GetString(key + "." + "path")
+	conf.MaxSize = GetUInt32(key + "." + "maxSize")
+	conf.MaxBackups = GetUInt32(key + "." + "maxBackups")
+	conf.MaxAge = GetUInt32(key + "." + "maxAge")
+	conf.Compress = GetBool(key + "." + "compress")
 	return conf
 }
 
