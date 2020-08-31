@@ -7,6 +7,8 @@ import (
 
 func InitConfig() {
 	//log 默认值
+
+	viper.SetDefault("server.netTimeOutMs", 5000)
 	viper.SetDefault("log.level", "debug")
 	viper.SetDefault("log.path", "../log/")
 	viper.SetDefault("log.maxSize", 100)

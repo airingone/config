@@ -1,10 +1,11 @@
 package config
 
 type ConfigServer struct {
-	Name    string
-	Author  string
-	Version string
-	Port    uint32
+	Name         string
+	Author       string
+	Version      string
+	Port         uint32
+	NetTimeOutMs uint32 //网络耗时，即client到server入口的网络耗时，超过这个时间请求直接返回，默认5000ms
 }
 
 func GetServerConfig(key string) ConfigServer {
@@ -13,6 +14,7 @@ func GetServerConfig(key string) ConfigServer {
 	conf.Author = GetString(key + "." + "author")
 	conf.Version = GetString(key + "." + "version")
 	conf.Port = GetUInt32(key + "." + "port")
+	conf.NetTimeOutMs = GetUInt32(key + "." + "netTimeOutMs")
 	return conf
 }
 

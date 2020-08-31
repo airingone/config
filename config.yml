@@ -3,6 +3,7 @@ server:
   author: airing
   version: 1.0
   port: 8080
+  netTimeOutMs: 5000
 
 log:
   level: debug
