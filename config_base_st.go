@@ -63,3 +63,13 @@ func GetMysqlConfig(key string) ConfigMysql {
 	conf.Password = GetString(key + "." + "password")
 	return conf
 }
+
+type ConfigEtcd struct {
+	Addrs []string
+}
+
+func GetEtcdConfig(key string) ConfigEtcd {
+	var conf ConfigEtcd
+	conf.Addrs = GetStringSlice(key + "." + "addrs")
+	return conf
+}
