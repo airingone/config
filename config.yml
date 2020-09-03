@@ -21,3 +21,6 @@ mysql_test:
   addr: xxx.xxx.xxx.xxx:6379
   user: test_user
   password: test
+
+etcd:
+  addrs: ["127.0.0.1:2380"]

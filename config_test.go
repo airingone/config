@@ -16,5 +16,6 @@ func TestConfigLoad(t *testing.T) {
 	t.Logf("log: %+v", GetLogConfig("log"))
 	t.Logf("redis_test: %+v", GetRedisConfig("redis_test"))
 	t.Logf("mysql_test: %+v", GetMysqlConfig("mysql_test"))
+	t.Logf("etcd_test: %+v", GetEtcdConfig("etcd"))
 
 }
