@@ -31,7 +31,8 @@ http_test:
   method: POST
   contentType: application/json; charset=utf-8
   scheme: http
-  certFilePath: ../conf/cert.pem
-  keyFilePath: ../conf/key.pem
   host:
   proxy:
+  certFilePath: ../conf/cert.pem
+  keyFilePath: ../conf/key.pem
+  rootCaFilePath:

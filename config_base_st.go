@@ -83,15 +83,16 @@ func GetEtcdConfig(key string) ConfigEtcd {
 
 //http client
 type ConfigHttp struct {
-	Addr         string //http addr
-	TimeOutMs    uint32 //请求超时时间，单位毫秒
-	Method       string //"POST" or "GET"
-	ContentType  string //如"application/json; charset=utf-8"
-	Scheme       string //"http" or "https"
-	CertFilePath string //https cert文件路径
-	KeyFilePath  string //https key文件路径
-	Host         string //http host,不填为无
-	Proxy        string //代理，不填为无
+	Addr           string //http addr
+	TimeOutMs      uint32 //请求超时时间，单位毫秒
+	Method         string //"POST" or "GET"
+	ContentType    string //如"application/json; charset=utf-8"
+	Scheme         string //"http" or "https"
+	Host           string //http host,不填为无
+	Proxy          string //代理，不填为无
+	CertFilePath   string //https cert文件路径
+	KeyFilePath    string //https key文件路径
+	RootCaFilePath string //https ca filt
 }
 
 func GetHttpConfig(key string) ConfigHttp {
@@ -105,9 +106,11 @@ func GetHttpConfig(key string) ConfigHttp {
 	conf.Method = GetString(key + "." + "method")
 	conf.ContentType = GetString(key + "." + "contentType")
 	conf.Scheme = GetString(key + "." + "scheme")
-	conf.CertFilePath = GetString(key + "." + "certFilePath")
-	conf.KeyFilePath = GetString(key + "." + "keyFilePath")
 	conf.Host = GetString(key + "." + "host")
 	conf.Proxy = GetString(key + "." + "proxy")
+	conf.CertFilePath = GetString(key + "." + "certFilePath")
+	conf.KeyFilePath = GetString(key + "." + "keyFilePath")
+	conf.RootCaFilePath = GetString(key + "." + "rootCaFilePath")
+
 	return conf
 }
