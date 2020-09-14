@@ -1,5 +1,6 @@
 package config
 
+//server
 type ConfigServer struct {
 	Name         string
 	Author       string
@@ -18,6 +19,7 @@ func GetServerConfig(key string) ConfigServer {
 	return conf
 }
 
+//log
 type ConfigLog struct {
 	Level      string
 	Path       string
@@ -38,6 +40,7 @@ func GetLogConfig(key string) ConfigLog {
 	return conf
 }
 
+//redis
 type ConfigRedis struct {
 	Addr     string
 	Password string
@@ -50,6 +53,7 @@ func GetRedisConfig(key string) ConfigRedis {
 	return conf
 }
 
+//mysql
 type ConfigMysql struct {
 	Addr     string
 	User     string
@@ -64,6 +68,7 @@ func GetMysqlConfig(key string) ConfigMysql {
 	return conf
 }
 
+//etcd
 type ConfigEtcd struct {
 	Addrs []string
 }
@@ -71,5 +76,20 @@ type ConfigEtcd struct {
 func GetEtcdConfig(key string) ConfigEtcd {
 	var conf ConfigEtcd
 	conf.Addrs = GetStringSlice(key + "." + "addrs")
+	return conf
+}
+
+//http client
+type ConfigHttp struct {
+	Addr      string //http addr
+	TimeOutMs uint32 //请求超时时间，单位毫秒
+	Method    string //"POST" or "GET"
+}
+
+func GetConfigHttp(key string) ConfigHttp {
+	var conf ConfigHttp
+	conf.Addr = GetString(key + "." + "addr")
+	conf.TimeOutMs = GetUInt32(key + "." + "timeOutMs")
+	conf.Addr = GetString(key + "." + "method")
 	return conf
 }
