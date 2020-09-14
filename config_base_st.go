@@ -81,15 +81,38 @@ func GetEtcdConfig(key string) ConfigEtcd {
 
 //http client
 type ConfigHttp struct {
-	Addr      string //http addr
-	TimeOutMs uint32 //请求超时时间，单位毫秒
-	Method    string //"POST" or "GET"
+	Addr        string //http addr
+	TimeOutMs   uint32 //请求超时时间，单位毫秒
+	Method      string //"POST" or "GET"
+	ContentType string //如"application/json; charset=utf-8"
 }
 
-func GetConfigHttp(key string) ConfigHttp {
+func GetHttpConfig(key string) ConfigHttp {
 	var conf ConfigHttp
 	conf.Addr = GetString(key + "." + "addr")
 	conf.TimeOutMs = GetUInt32(key + "." + "timeOutMs")
 	conf.Addr = GetString(key + "." + "method")
+	conf.ContentType = GetString(key + "." + "contentType")
+	return conf
+}
+
+//http client
+type ConfigHttps struct {
+	Addr         string //http addr
+	TimeOutMs    uint32 //请求超时时间，单位毫秒
+	Method       string //"POST" or "GET"
+	ContentType  string //如"application/json; charset=utf-8"
+	CertFilePath string //https cert文件路径
+	KeyFilePath  string //https key文件路径
+}
+
+func GetHttpsConfig(key string) ConfigHttps {
+	var conf ConfigHttps
+	conf.Addr = GetString(key + "." + "addr")
+	conf.TimeOutMs = GetUInt32(key + "." + "timeOutMs")
+	conf.Addr = GetString(key + "." + "method")
+	conf.ContentType = GetString(key + "." + "contentType")
+	conf.CertFilePath = GetString(key + "." + "certFilePath")
+	conf.KeyFilePath = GetString(key + "." + "keyFilePath")
 	return conf
 }

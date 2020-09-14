@@ -24,3 +24,17 @@ mysql_test:
 
 etcd:
   addrs: ["127.0.0.1:2380"]
+
+http_test:
+  addr: 127.0.0.1:8080
+  timeOutMs: 5000
+  method: POST
+  contentType: application/json; charset=utf-8
+
+https_test:
+  addr: 127.0.0.1:8080
+  timeOutMs: 5000
+  method: POST
+  contentType: application/json; charset=utf-8
+  certFilePath: ../conf/cert.pem
+  keyFilePath: ../conf/key.pem
