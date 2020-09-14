@@ -27,16 +27,11 @@ etcd:
 
 http_test:
   addr: 127.0.0.1:8080
-  host:
   timeOutMs: 5000
   method: POST
   contentType: application/json; charset=utf-8
-
-https_test:
-  addr: 127.0.0.1:8080
-  host:
-  timeOutMs: 5000
-  method: POST
-  contentType: application/json; charset=utf-8
+  scheme: http
   certFilePath: ../conf/cert.pem
   keyFilePath: ../conf/key.pem
+  host:
+  proxy:

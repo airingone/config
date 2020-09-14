@@ -1,5 +1,7 @@
 package config
 
+import "github.com/spf13/viper"
+
 //server
 type ConfigServer struct {
 	Name         string
@@ -81,42 +83,31 @@ func GetEtcdConfig(key string) ConfigEtcd {
 
 //http client
 type ConfigHttp struct {
-	Addr        string //http addr
-	Host        string //http host
-	TimeOutMs   uint32 //请求超时时间，单位毫秒
-	Method      string //"POST" or "GET"
-	ContentType string //如"application/json; charset=utf-8"
-}
-
-func GetHttpConfig(key string) ConfigHttp {
-	var conf ConfigHttp
-	conf.Addr = GetString(key + "." + "addr")
-	conf.Host = GetString(key + "." + "host")
-	conf.TimeOutMs = GetUInt32(key + "." + "timeOutMs")
-	conf.Method = GetString(key + "." + "method")
-	conf.ContentType = GetString(key + "." + "contentType")
-	return conf
-}
-
-//http client
-type ConfigHttps struct {
 	Addr         string //http addr
-	Host         string //http host
 	TimeOutMs    uint32 //请求超时时间，单位毫秒
 	Method       string //"POST" or "GET"
 	ContentType  string //如"application/json; charset=utf-8"
+	Scheme       string //"http" or "https"
 	CertFilePath string //https cert文件路径
 	KeyFilePath  string //https key文件路径
+	Host         string //http host,不填为无
+	Proxy        string //代理，不填为无
 }
 
-func GetHttpsConfig(key string) ConfigHttps {
-	var conf ConfigHttps
+func GetHttpConfig(key string) ConfigHttp {
+	viper.SetDefault(key+"."+"timeOutMs", 5000)
+	viper.SetDefault(key+"."+"method", "GET")
+	viper.SetDefault(key+"."+"scheme", "http")
+
+	var conf ConfigHttp
 	conf.Addr = GetString(key + "." + "addr")
-	conf.Host = GetString(key + "." + "host")
 	conf.TimeOutMs = GetUInt32(key + "." + "timeOutMs")
 	conf.Method = GetString(key + "." + "method")
 	conf.ContentType = GetString(key + "." + "contentType")
+	conf.Scheme = GetString(key + "." + "scheme")
 	conf.CertFilePath = GetString(key + "." + "certFilePath")
 	conf.KeyFilePath = GetString(key + "." + "keyFilePath")
+	conf.Host = GetString(key + "." + "host")
+	conf.Proxy = GetString(key + "." + "proxy")
 	return conf
 }
