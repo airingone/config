@@ -128,3 +128,17 @@ func GetGrpcConfig(key string) ConfigGrpc {
 
 	return conf
 }
+
+//net client
+type ConfigNet struct {
+	Addr      string //addr
+	TimeOutMs uint32 //请求超时时间，单位毫秒
+}
+
+func GetNetConfig(key string) ConfigGrpc {
+	var conf ConfigGrpc
+	conf.Name = GetString(key + "." + "addr")
+	conf.TimeOutMs = GetUInt32(key + "." + "timeOutMs")
+
+	return conf
+}
