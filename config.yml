@@ -36,3 +36,7 @@ http_test:
   certFilePath: ../conf/cert.pem
   keyFilePath: ../conf/key.pem
   rootCaFilePath:
+
+grpc_test:
+  name: grpc_test
+  timeOutMs: 5000

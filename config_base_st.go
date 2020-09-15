@@ -114,3 +114,17 @@ func GetHttpConfig(key string) ConfigHttp {
 
 	return conf
 }
+
+//grpc client
+type ConfigGrpc struct {
+	Name      string //http name
+	TimeOutMs uint32 //请求超时时间，单位毫秒
+}
+
+func GetGrpcConfig(key string) ConfigGrpc {
+	var conf ConfigGrpc
+	conf.Name = GetString(key + "." + "name")
+	conf.TimeOutMs = GetUInt32(key + "." + "timeOutMs")
+
+	return conf
+}

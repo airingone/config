@@ -18,5 +18,5 @@ func TestConfigLoad(t *testing.T) {
 	t.Logf("mysql_test: %+v", GetMysqlConfig("mysql_test"))
 	t.Logf("etcd_test: %+v", GetEtcdConfig("etcd"))
 	t.Logf("http_test: %+v", GetHttpConfig("http_test"))
-
+	t.Logf("grpc_test: %+v", GetGrpcConfig("grpc_test"))
 }
