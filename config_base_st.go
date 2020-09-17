@@ -4,20 +4,27 @@ import "github.com/spf13/viper"
 
 //server
 type ConfigServer struct {
-	Name         string
-	Author       string
-	Version      string
-	Port         uint32
-	NetTimeOutMs uint32 //网络耗时，即client到server入口的网络耗时，超过这个时间请求直接返回，默认5000ms
+	Name          string
+	Author        string
+	Version       string
+	Port          uint32
+	NetTimeOutMs  uint32 //网络耗时，即client到server入口的网络耗时，超过这个时间请求直接返回，默认5000ms
+	CapacityPool  uint32 //限频协程数 即协程池协程数
+	CapacityLimit uint32 //限频limiter 一般为每秒限制数
 }
 
 func GetServerConfig(key string) ConfigServer {
+	viper.SetDefault(key+"."+"capacityPool", 10000)
+	viper.SetDefault(key+"."+"capacityLimit", 10000)
+
 	var conf ConfigServer
 	conf.Name = GetString(key + "." + "name")
 	conf.Author = GetString(key + "." + "author")
 	conf.Version = GetString(key + "." + "version")
 	conf.Port = GetUInt32(key + "." + "port")
 	conf.NetTimeOutMs = GetUInt32(key + "." + "netTimeOutMs")
+	conf.CapacityPool = GetUInt32(key + "." + "capacityPool")
+	conf.CapacityLimit = GetUInt32(key + "." + "capacityLimit")
 	return conf
 }
 
