@@ -9,11 +9,14 @@ type ConfigServer struct {
 	Version       string
 	Port          uint32
 	NetTimeOutMs  uint32 //网络耗时，即client到server入口的网络耗时，超过这个时间请求直接返回，默认5000ms
+	IdleTimeoutMs uint32 //tcd连接最大空闲时间 默认5分钟
 	CapacityPool  uint32 //限频协程数 即协程池协程数
 	CapacityLimit uint32 //限频limiter 一般为每秒限制数
 }
 
 func GetServerConfig(key string) ConfigServer {
+	viper.SetDefault("server.netTimeOutMs", 5000)
+	viper.SetDefault("server.idleTimeoutMs", 300000)
 	viper.SetDefault(key+"."+"capacityPool", 10000)
 	viper.SetDefault(key+"."+"capacityLimit", 10000)
 
@@ -138,13 +141,15 @@ func GetGrpcConfig(key string) ConfigGrpc {
 
 //net client
 type ConfigNet struct {
-	Addr      string //addr
-	TimeOutMs uint32 //请求超时时间，单位毫秒
+	ServerName string //server name
+	Addr       string //addr
+	TimeOutMs  uint32 //请求超时时间，单位毫秒
 }
 
-func GetNetConfig(key string) ConfigGrpc {
-	var conf ConfigGrpc
-	conf.Name = GetString(key + "." + "addr")
+func GetNetConfig(key string) ConfigNet {
+	var conf ConfigNet
+	conf.ServerName = GetString(key + "." + "serverName")
+	conf.Addr = GetString(key + "." + "addr")
 	conf.TimeOutMs = GetUInt32(key + "." + "timeOutMs")
 
 	return conf
