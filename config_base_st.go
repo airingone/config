@@ -26,6 +26,7 @@ func GetServerConfig(key string) ConfigServer {
 	conf.Version = GetString(key + "." + "version")
 	conf.Port = GetUInt32(key + "." + "port")
 	conf.NetTimeOutMs = GetUInt32(key + "." + "netTimeOutMs")
+	conf.IdleTimeoutMs = GetUInt32(key + "." + "idleTimeoutMs")
 	conf.CapacityPool = GetUInt32(key + "." + "capacityPool")
 	conf.CapacityLimit = GetUInt32(key + "." + "capacityLimit")
 	return conf
