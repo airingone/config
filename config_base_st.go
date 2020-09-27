@@ -68,16 +68,18 @@ func GetRedisConfig(key string) ConfigRedis {
 
 //mysql
 type ConfigMysql struct {
-	Addr     string
-	User     string
-	Password string
+	Addr         string
+	MaxIdleConns uint32 //最大空闲连接
+	MaxOpenConns uint32 //最大打开连接数
 }
 
 func GetMysqlConfig(key string) ConfigMysql {
+	viper.SetDefault(key+"."+"maxIdleConns", 10)
+	viper.SetDefault(key+"."+"maxOpenConns", 300)
 	var conf ConfigMysql
 	conf.Addr = GetString(key + "." + "addr")
-	conf.User = GetString(key + "." + "user")
-	conf.Password = GetString(key + "." + "password")
+	conf.MaxIdleConns = GetUInt32(key + "." + "maxIdleConns")
+	conf.MaxOpenConns = GetUInt32(key + "." + "maxOpenConns")
 	return conf
 }
 
