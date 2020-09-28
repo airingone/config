@@ -2,18 +2,21 @@ package config
 
 import "github.com/spf13/viper"
 
-//server
+//定义基础的config，为了更方便在各组件模块使用，这里可以持续增加
+
+//server config
 type ConfigServer struct {
-	Name          string
-	Author        string
-	Version       string
-	Port          uint32
-	NetTimeOutMs  uint32 //网络耗时，即client到server入口的网络耗时，超过这个时间请求直接返回，默认5000ms
-	IdleTimeoutMs uint32 //tcd连接最大空闲时间 默认5分钟
-	CapacityPool  uint32 //限频协程数 即协程池协程数
-	CapacityLimit uint32 //限频limiter 一般为每秒限制数
+	Name          string //服务名，各模块需要取不一样的名字，如果使用etcd发现服务则使用服务名，建议XXX_name
+	Author        string //服务负责人
+	Version       string //版本
+	Port          uint32 //服务端口，可http/tcp/udp
+	NetTimeOutMs  uint32 //网络超时,单位毫秒，默认5000
+	IdleTimeoutMs uint32 //tcp服务时的空闲时间上限，单位秒，默认300
+	CapacityPool  uint32 //协程池最大协程数，默认10000
+	CapacityLimit uint32 //限频值，每秒最大请求量为该值，默认10000
 }
 
+//get server config
 func GetServerConfig(key string) ConfigServer {
 	viper.SetDefault("server.netTimeOutMs", 5000)
 	viper.SetDefault("server.idleTimeoutMs", 300000)
@@ -32,16 +35,17 @@ func GetServerConfig(key string) ConfigServer {
 	return conf
 }
 
-//log
+//log config
 type ConfigLog struct {
-	Level      string
-	Path       string
-	MaxSize    uint32 // MB
-	MaxBackups uint32 //file count
-	MaxAge     uint32 //days
-	Compress   bool
+	Level      string //日志等级，支持error,debug,info,warn,trace，默认debug
+	Path       string //日志路径，默认../log/
+	MaxSize    uint32 //日志文件最大大小，单位MB，默认100
+	MaxBackups uint32 //文件数，默认20
+	MaxAge     uint32 //日志过期时间，单位天，默认30
+	Compress   bool   //是否压缩，默认false
 }
 
+//get log config
 func GetLogConfig(key string) ConfigLog {
 	var conf ConfigLog
 	conf.Level = GetString(key + "." + "level")
@@ -53,12 +57,13 @@ func GetLogConfig(key string) ConfigLog {
 	return conf
 }
 
-//redis
+//redis config
 type ConfigRedis struct {
-	Addr     string
-	Password string
+	Addr     string //地址，ip:port
+	Password string //密码
 }
 
+//get redis config
 func GetRedisConfig(key string) ConfigRedis {
 	var conf ConfigRedis
 	conf.Addr = GetString(key + "." + "addr")
@@ -66,13 +71,14 @@ func GetRedisConfig(key string) ConfigRedis {
 	return conf
 }
 
-//mysql
+//mysql config
 type ConfigMysql struct {
-	Addr         string
+	Addr         string //地址，如"root:test.2020@tcp(127.0.0.1:3306)/air_test?charset=utf8"
 	MaxIdleConns uint32 //最大空闲连接
 	MaxOpenConns uint32 //最大打开连接数
 }
 
+//get mysql config
 func GetMysqlConfig(key string) ConfigMysql {
 	viper.SetDefault(key+"."+"maxIdleConns", 10)
 	viper.SetDefault(key+"."+"maxOpenConns", 300)
@@ -83,31 +89,33 @@ func GetMysqlConfig(key string) ConfigMysql {
 	return conf
 }
 
-//etcd
+//etcd config
 type ConfigEtcd struct {
-	Addrs []string
+	Addrs []string //etcd集群地址
 }
 
+//get etcd config
 func GetEtcdConfig(key string) ConfigEtcd {
 	var conf ConfigEtcd
 	conf.Addrs = GetStringSlice(key + "." + "addrs")
 	return conf
 }
 
-//http client
+//http client config
 type ConfigHttp struct {
-	Addr           string //http addr
+	Addr           string //地址，可为: ip:ip:port, etcd:servername, url:www.xxx.com
 	TimeOutMs      uint32 //请求超时时间，单位毫秒
-	Method         string //"POST" or "GET"
-	ContentType    string //如"application/json; charset=utf-8"
-	Scheme         string //"http" or "https"
-	Host           string //http host,不填为无
-	Proxy          string //代理，不填为无
-	CertFilePath   string //https cert文件路径
-	KeyFilePath    string //https key文件路径
-	RootCaFilePath string //https ca filt
+	Method         string //http method，可为POST,GET
+	ContentType    string //请求数据格式，如"application/json; charset=utf-8"
+	Scheme         string //http scheme,可为http,https
+	Host           string //host,如果填了则会使用host，默认为空不使用
+	Proxy          string //proxy,如果填了则会使用proxy，默认为空不使用
+	CertFilePath   string //https证书cert，如果是scheme=https则需要填
+	KeyFilePath    string //https证书key，如果是scheme=https则需要填
+	RootCaFilePath string //https证书rootCa，如果是scheme=https则需要填
 }
 
+//get http client config
 func GetHttpConfig(key string) ConfigHttp {
 	viper.SetDefault(key+"."+"timeOutMs", 5000)
 	viper.SetDefault(key+"."+"method", "GET")
@@ -128,12 +136,13 @@ func GetHttpConfig(key string) ConfigHttp {
 	return conf
 }
 
-//grpc client
+//grpc client config
 type ConfigGrpc struct {
-	Name      string //http name
+	Name      string //请求的服务名，根据服务名注册etcd
 	TimeOutMs uint32 //请求超时时间，单位毫秒
 }
 
+//get grpc client config
 func GetGrpcConfig(key string) ConfigGrpc {
 	var conf ConfigGrpc
 	conf.Name = GetString(key + "." + "name")
@@ -142,13 +151,14 @@ func GetGrpcConfig(key string) ConfigGrpc {
 	return conf
 }
 
-//net client
+//net client config
 type ConfigNet struct {
-	ServerName string //server name
-	Addr       string //addr
-	TimeOutMs  uint32 //请求超时时间，单位毫秒
+	ServerName string //请求的服务名
+	Addr       string //地址，可为: ip:ip:port, etcd:servername
+	TimeOutMs  uint32 //请求耗时
 }
 
+//get net client config
 func GetNetConfig(key string) ConfigNet {
 	var conf ConfigNet
 	conf.ServerName = GetString(key + "." + "serverName")

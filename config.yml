@@ -1,44 +1,58 @@
+#服务信息，server端模块必须有
 server:
-  name: congfig_test
-  author: airing
-  version: 1.0
-  port: 8080
-  netTimeOutMs: 5000
-  capacityPool: 10000
-  capacityLimit: 10000
+  name: congfig_test   #服务名，各模块需要取不一样的名字，如果使用etcd发现服务则使用服务名，建议XXX_name
+  author: airing       #服务负责人
+  version: 1.0         #版本
+  port: 8080           #服务端口，可http/tcp/udp
+  netTimeOutMs: 5000   #网络超时,单位毫秒，默认5000
+  idleTimeoutMs: 300   #tcp服务时的空闲时间上限，单位秒，默认300
+  capacityPool: 10000  #协程池最大协程数，默认10000
+  capacityLimit: 10000 #限频值，每秒最大请求量为该值，默认10000
 
+#日志配置
 log:
-  level: debug
-  path: ../log/
-  maxSize: 100   #mb
-  maxBackups: 20 #file count
-  maxAge: 30     #days
-  compress: true
+  level: debug   #日志等级，支持error,debug,info,warn,trace，默认debug
+  path: ../log/  #日志路径，默认../log/
+  maxSize: 100   #日志文件最大大小，单位MB，默认100
+  maxBackups: 20 #文件数，默认20
+  maxAge: 30     #日志过期时间，单位天，默认30
+  compress: true #是否压缩，默认false
 
+#redis配置
 redis_test:
-  addr: xxx.xxx.xxx.xxx:6379
-  password: test
+  addr: xxx.xxx.xxx.xxx:6379 #地址，ip:port
+  password: test             #密码
 
+#mysql配置
 mysql_test:
-  addr: xxx.xxx.xxx.xxx:6379
-  user: test_user
-  password: test
+  addr: "root:test.2020@tcp(127.0.0.1:3306)/air_test?charset=utf8" #地址
+  maxIdleConns: 30  #最大空闲连接
+  maxOpenConns: 300 #最大打开连接数
 
+#etcd配置
 etcd:
-  addrs: ["127.0.0.1:2380"]
+  addrs: ["127.0.0.1:2380"] #etcd集群地址
 
+#http client配置
 http_test:
-  addr: 127.0.0.1:8080
-  timeOutMs: 5000
-  method: POST
-  contentType: application/json; charset=utf-8
-  scheme: http
-  host:
-  proxy:
-  certFilePath: ../conf/cert.pem
-  keyFilePath: ../conf/key.pem
-  rootCaFilePath:
+  addr: ip:127.0.0.1:8080 #地址，可为: ip:ip:port, etcd:servername, url:www.xxx.com
+  timeOutMs: 5000         #请求超时时间，单位毫秒
+  method: POST            #http method，可为POST,GET
+  contentType: application/json; charset=utf-8 #请求数据格式
+  scheme: http            #http scheme,可为http,https
+  host:                   #host,如果填了则会使用host，默认为空不使用
+  proxy:                  #proxy,如果填了则会使用proxy，默认为空不使用
+  certFilePath: ../conf/cert.pem #https证书cert，如果是scheme=https则需要填
+  keyFilePath: ../conf/key.pem   #https证书key，如果是scheme=https则需要填
+  rootCaFilePath:                #https证书rootCa，如果是scheme=https则需要填
 
+#grpc client配置
 grpc_test:
-  name: grpc_test
-  timeOutMs: 5000
+  name: grpc_test #请求的服务名，根据服务名注册etcd
+  timeOutMs: 5000 #请求耗时
+
+#网络client配置，可为udp与tcp
+udp_test1:
+  serverName: netserver_test #请求的服务名
+  addr: etcd:netserver_test  #地址，可为: ip:ip:port, etcd:servername
+  timeOutMs: 5000            #请求耗时

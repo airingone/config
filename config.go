@@ -5,9 +5,11 @@ import (
 	"log"
 )
 
+//config
+
+//初始化配置文件，进程启动时初始化一次即可，config文件名为config.yml,路径为../conf/或./
 func InitConfig() {
 	//log 默认值
-
 	viper.SetDefault("log.level", "debug")
 	viper.SetDefault("log.path", "../log/")
 	viper.SetDefault("log.maxSize", 100)

@@ -4,6 +4,7 @@ import (
 	"testing"
 )
 
+//测试config
 func TestConfigLoad(t *testing.T) {
 	InitConfig()
 
