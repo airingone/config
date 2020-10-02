@@ -56,3 +56,10 @@ udp_test1:
   serverName: netserver_test #请求的服务名
   addr: etcd:netserver_test  #地址，可为: ip:ip:port, etcd:servername
   timeOutMs: 5000            #请求耗时
+
+#elastic client配置
+elastic_test:
+  addr: http://127.0.0.1:9200  #地址
+  userName: #用户名
+  password: #密码
+  timeOutMs: 5000

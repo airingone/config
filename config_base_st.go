@@ -167,3 +167,22 @@ func GetNetConfig(key string) ConfigNet {
 
 	return conf
 }
+
+//es client config
+type ConfigEs struct {
+	Addr      string //地址，可为: "http://127.0.0.1:9200"
+	UserName  string //用户名，如果无用户名与密码则直接为空即可
+	Password  string //用户密码，如果无用户名与密码则直接为空即可
+	TimeOutMs uint32 //请求耗时
+}
+
+//get es client config
+func GetEsConfig(key string) ConfigEs {
+	var conf ConfigEs
+	conf.Addr = GetString(key + "." + "addr")
+	conf.UserName = GetString(key + "." + "userName")
+	conf.Password = GetString(key + "." + "password")
+	conf.TimeOutMs = GetUInt32(key + "." + "timeOutMs")
+
+	return conf
+}

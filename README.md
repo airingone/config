@@ -1,4 +1,4 @@
-#配置文件组建
+# 配置文件组件
 ## 1.组件描述
 config用于加载与读取yml配置文件，默认封装ConfigServer，ConfigLog，ConfigRedis等等配置结构。
 配置文件格式请参考[config.yml](https://github.com/airingone/config/blob/master/config.yml)。
