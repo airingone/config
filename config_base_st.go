@@ -186,3 +186,41 @@ func GetEsConfig(key string) ConfigEs {
 
 	return conf
 }
+
+//kafka product config
+type ConfigKafKaProduct struct {
+	Addr      string //broker地址，可为: "127.0.0.1:9092,XXX.XXX.XXX.XXX:9092"
+	Topic     string //topic
+	TimeOutMs uint32 //超时，如果是生产者则为发送消息超时，是消费者则为pool超时
+}
+
+//get kafka product config
+func GetKafKaProductConfig(key string) ConfigKafKaProduct {
+	viper.SetDefault(key+"."+"timeOutMs", 6000)
+	var conf ConfigKafKaProduct
+	conf.Addr = GetString(key + "." + "addr")
+	conf.Topic = GetString(key + "." + "topic")
+	conf.TimeOutMs = GetUInt32(key + "." + "timeOutMs")
+
+	return conf
+}
+
+//kafka consumer config
+type ConfigKafKaConsumer struct {
+	Addr      string   //broker地址，可为: "127.0.0.1:9092,XXX.XXX.XXX.XXX:9092"
+	Topics    []string //topic列表
+	Group     string   //消费租group，只有消费者时需要配置
+	TimeOutMs uint32   //超时，如果是生产者则为发送消息超时，是消费者则为pool超时
+}
+
+//get kafka consumer config
+func GetKafKaConsumerConfig(key string) ConfigKafKaConsumer {
+	viper.SetDefault(key+"."+"timeOutMs", 6000)
+	var conf ConfigKafKaConsumer
+	conf.Addr = GetString(key + "." + "addr")
+	conf.Topics = GetStringSlice(key + "." + "topics")
+	conf.Group = GetString(key + "." + "group")
+	conf.TimeOutMs = GetUInt32(key + "." + "timeOutMs")
+
+	return conf
+}

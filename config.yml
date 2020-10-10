@@ -63,3 +63,16 @@ elastic_test:
   userName: #用户名
   password: #密码
   timeOutMs: 5000
+
+#kafak product配置
+kafka_product:
+  addrs: 127.0.0.1:9092,XXX.XXX.XXX.XXX:9092 #地址
+  topics: ["topic01"] #topic
+  timeOutMs: 10000    #发送超时
+
+#kafak consumer配置
+kafka_consumer:
+  addrs: 127.0.0.1:9092,XXX.XXX.XXX.XXX:9092 #地址
+  topics: ["topic01"] #topic
+  group: group01      #group
+  timeOutMs: 10000    #发送超时
